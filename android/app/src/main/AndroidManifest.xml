@@ -24,6 +24,24 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        <!--DeepLink-->
+            <intent-filter>
+                <!-- 2nd step -> initialize the protocal and domain -->
+                <!-- custom scheme -->
+                <data android:scheme="com.example.deeplink" android:host="deep-link-eight.vercel.app" />
+                <!-- https -->
+                <data android:scheme="https" android:host="deep-link-eight.vercel.app" />
+                <!-- http -->
+                <data android:scheme="http" android:host="deep-link-eight.vercel.app" />
+
+                <!-- 3rd step -> give some permission -->
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+            </intent-filter>
+            <!-- 1st step -> give the permission to use deeplink in app -->
+            <meta-data android:name="flutter_deeplinking_enabled" android:value="true" />
         </activity>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
