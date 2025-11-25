@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:app_links/app_links.dart';
 import 'package:deeplink/screen/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -37,8 +38,9 @@ class _MyAppState extends State<MyApp> {
 
   void _handleDeepLink(Uri uri) {
     debugPrint('deeplink Url: $uri');
-    if (uri.scheme == 'com.garibook.user' ||
-        uri.host == 'marketing.garibook.com') {
+    if (uri.scheme == 'com.example.deeplink' ||
+        uri.scheme == 'http' ||
+        uri.scheme == 'https' && uri.host == 'deep-link-eight.vercel.app') {
       String? deepLinkPath;
 
       Navigator.of(context).push(

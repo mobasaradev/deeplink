@@ -45,17 +45,29 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: SizedBox(
         width: double.maxFinite,
-        height: double.maxFinite,
-
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Home Scrren",
+              "Home Screen",
               style: TextStyle(fontSize: 28, fontWeight: FontWeight.w600),
             ),
-            ElevatedButton(onPressed: () {}, child: Text('Go to Offer Screen')),
+            SizedBox(height: 50),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(
+                  context,
+                ).push(MaterialPageRoute(builder: (context) => OfferScreen()));
+              },
+              child: Text('Go to Offer Screen'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => ProfileScreen()),
+                );
+              },
               child: Text('Go to Profile Screen'),
             ),
           ],

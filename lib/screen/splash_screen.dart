@@ -30,27 +30,21 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(
-        builder: (_) => HomeScreen(deepLink: widget.deepLink),
-      ),
+      MaterialPageRoute(builder: (_) => HomeScreen(deepLink: widget.deepLink)),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Splash Screen"),
-        centerTitle: true,
-        backgroundColor: Colors.deepPurpleAccent,
-      ),
+      backgroundColor: Colors.deepPurpleAccent,
       body: SizedBox(
         width: double.maxFinite,
         height: double.maxFinite,
 
         child: Center(
           child: Text(
-            "Splash Scrren",
+            "Splash Screen",
             style: TextStyle(fontSize: 28, fontWeight: FontWeight.w600),
           ),
         ),
