@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:app_links/app_links.dart';
-import 'package:deeplink/screen/splash_screen.dart';
+import 'package:deeplink/feature/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 /// For app_links package

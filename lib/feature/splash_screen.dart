@@ -1,5 +1,6 @@
-import 'package:deeplink/screen/home_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'navigation.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key, this.deepLink});
@@ -30,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (_) => HomeScreen(deepLink: widget.deepLink)),
+      MaterialPageRoute(builder: (_) => Navigation(deepLink: widget.deepLink)),
     );
   }
 
