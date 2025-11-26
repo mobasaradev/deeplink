@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import '../repository/product_repo.dart';
 import 'screen/home_screen.dart';
 import 'screen/product_detail_screen.dart';
 import 'screen/products_screen.dart';
@@ -20,9 +18,9 @@ class _NavigationState extends State<Navigation> {
   final List<Widget> _screens = [const HomeScreen(), const ProductsScreen()];
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
-    await ProductRepository.loadProducts();
+    // await ProductRepository.loadProducts();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _handleDeepLink();
@@ -30,16 +28,16 @@ class _NavigationState extends State<Navigation> {
   }
 
   void _handleDeepLink() {
-    if (widget.deepLink == null) return;
+    final deepLink = widget.deepLink;
+    if (deepLink == null) return;
 
-    final uri = Uri.tryParse(widget.deepLink!);
+    final uri = Uri.tryParse(deepLink);
     if (uri == null) return;
 
-    debugPrint('Handling deep link: ${uri.toString()}');
-
     final path = uri.path;
+    debugPrint("product path::: $path");
     final params = uri.queryParameters;
-    final productId = int.tryParse(params['productId'].toString());
+    final productId = int.tryParse(params['productId'] ?? '');
 
     if (path.contains('products')) {
       debugPrint('Navigating to Products Screen');
