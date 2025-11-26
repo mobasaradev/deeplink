@@ -31,7 +31,7 @@ class _ProductCard extends StatelessWidget {
                 product.images.isNotEmpty
                     ? product.images[0]
                     : 'https://via.placeholder.com/300',
-                height: 140,
+                height: 120,
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
@@ -50,14 +50,27 @@ class _ProductCard extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    '\$${product.price}',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.deepPurple,
-                    ),
+                  const SizedBox(height: 6),
+                  Row(
+                    children: [
+                      Text(
+                        '\$${product.price}',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.deepPurple,
+                        ),
+                      ),
+                      SizedBox(width: 30),
+                      Text(
+                        "Id: ${product.id}",
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.deepPurple,
+                        ),
+                      )
+                    ],
                   ),
                 ],
               ),

@@ -37,6 +37,7 @@ class ProductsScreen extends StatelessWidget {
               },
             );
           } else if (snapshot.hasError) {
+            debugPrint('Error fetching products: ${snapshot.error}');
             return Center(child: Text('Error: ${snapshot.error}'));
           }
 
