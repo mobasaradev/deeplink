@@ -28,11 +28,11 @@
             <intent-filter>
                 <!-- 2nd step -> initialize the protocal and domain -->
                 <!-- custom scheme -->
-                <data android:scheme="com.example.deeplink" android:host="deep-link-eight.vercel.app" />
+                <data android:scheme="com.example.deeplink" android:host="dp-link.vercel.app" />
                 <!-- https -->
-                <data android:scheme="https" android:host="deep-link-eight.vercel.app" />
+                <data android:scheme="https" android:host="dp-link.vercel.app" />
                 <!-- http -->
-                <data android:scheme="http" android:host="deep-link-eight.vercel.app" />
+                <data android:scheme="http" android:host="dp-link.vercel.app" />
 
                 <!-- 3rd step -> give some permission -->
                 <action android:name="android.intent.action.VIEW" />

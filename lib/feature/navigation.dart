@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../repository/product_repo.dart';
 import 'screen/home_screen.dart';
+import 'screen/product_detail_screen.dart';
 import 'screen/products_screen.dart';
 
 class Navigation extends StatefulWidget {
@@ -13,44 +15,55 @@ class Navigation extends StatefulWidget {
 }
 
 class _NavigationState extends State<Navigation> {
+  int _currentIndex = 0;
 
-   @override
-  void initState() {
+  final List<Widget> _screens = [const HomeScreen(), const ProductsScreen()];
+
+  @override
+  void initState() async {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      if (widget.deepLink != null && context.mounted) {
-        debugPrint('Handling deep link: ${widget.deepLink}');
+    await ProductRepository.loadProducts();
 
-        if (widget.deepLink!.contains('product_screen')) {
-          debugPrint('Pushing Offer Screen from NavigationScreen');
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ProductsScreen()),
-          );
-        } else if (widget.deepLink!.contains('profile_details_screen')) {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => ProductDetailScreen()),
-          // );
-        }
-      }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _handleDeepLink();
     });
   }
 
-  int _currentIndex = 0;
+  void _handleDeepLink() {
+    if (widget.deepLink == null) return;
 
-  final List<Widget> _screens = [
-    const HomeScreen(),
-    const ProductsScreen(), 
-  ];
+    final uri = Uri.tryParse(widget.deepLink!);
+    if (uri == null) return;
+
+    debugPrint('Handling deep link: ${uri.toString()}');
+
+    final path = uri.path;
+    final params = uri.queryParameters;
+    final productId = int.tryParse(params['productId'].toString());
+
+    if (path.contains('products')) {
+      debugPrint('Navigating to Products Screen');
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const ProductsScreen()),
+      );
+    }
+    // Deep Link → Open Product Details
+    // Example: https://dp-link.vercel.app/product_details?productId=4
+    if (path.contains('product_details') && productId != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => ProductDetailScreen(productId: productId),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _screens,
-      ),
+      body: IndexedStack(index: _currentIndex, children: _screens),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {

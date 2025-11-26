@@ -1,10 +1,11 @@
 import 'dart:async';
 
-import 'package:app_links/app_links.dart';
-import 'package:deeplink/feature/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:uni_links/uni_links.dart';
 
-/// For app_links package
+import 'feature/splash_screen.dart';
+
+/// For uni_links package:::
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
@@ -13,47 +14,42 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  StreamSubscription<Uri>? _linkSubscription;
+  StreamSubscription? _linkSub;
+  String? _deepLink;
 
   @override
   void initState() {
     super.initState();
-    _initializeDeepLinkListener();
+    _listenForIncomingLinks();
+    _handleInitialUri();
   }
 
-  void _initializeDeepLinkListener() {
-    final appLinks = AppLinks();
-
-    _linkSubscription = appLinks.uriLinkStream.listen(
-      (Uri? uri) {
-        if (uri != null) {
-          _handleDeepLink(uri);
-        }
-      },
-      onError: (err) {
-        debugPrint('Error handling deep link: $err');
-      },
-    );
-  }
-
-  void _handleDeepLink(Uri uri) {
-    debugPrint('deeplink Url: $uri');
-    if (uri.scheme == 'com.example.deeplink' ||
-        uri.scheme == 'http' ||
-        uri.scheme == 'https' && uri.host == 'deep-link-eight.vercel.app') {
-      String? deepLinkPath;
-
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => SplashScreen(deepLink: deepLinkPath),
-        ),
-      );
+  // 1️⃣ Cold start link
+  Future<void> _handleInitialUri() async {
+    try {
+      final uri = await getInitialUri();
+      if (uri != null) {
+        debugPrint("Initial deep link: $uri");
+        setState(() => _deepLink = uri.toString());
+      }
+    } catch (e) {
+      debugPrint("Initial URI error: $e");
     }
+  }
+
+  // 2️⃣ Background / foreground link
+  void _listenForIncomingLinks() {
+    _linkSub = uriLinkStream.listen((Uri? uri) {
+      if (uri != null) {
+        debugPrint("Stream deep link: $uri");
+        setState(() => _deepLink = uri.toString());
+      }
+    }, onError: (err) => debugPrint("Stream error: $err"));
   }
 
   @override
   void dispose() {
-    _linkSubscription?.cancel();
+    _linkSub?.cancel();
     super.dispose();
   }
 
@@ -69,57 +65,61 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-/// For uni_links package:::
+// import 'package:app_links/app_links.dart';
 
+/// For app_links package
 // class MyApp extends StatefulWidget {
 //   const MyApp({super.key});
-//
+
 //   @override
 //   State<MyApp> createState() => _MyAppState();
 // }
-//
+
 // class _MyAppState extends State<MyApp> {
-//   StreamSubscription? _sub;
-//
+//   StreamSubscription<Uri>? _linkSubscription;
+
 //   @override
 //   void initState() {
 //     super.initState();
-//     initDeepLinkListener();
-//     handleInitialUri();
+//     _initializeDeepLinkListener();
 //   }
-//
-//   Future<void> handleInitialUri() async {
-//     final uri = await getInitialUri();
-//     if (uri != null) {
-//       _handleRouting(uri);
+
+//   void _initializeDeepLinkListener() {
+//     final appLinks = AppLinks();
+
+//     _linkSubscription = appLinks.uriLinkStream.listen(
+//       (Uri? uri) {
+//         if (uri != null) {
+//           _handleDeepLink(uri);
+//         }
+//       },
+//       onError: (err) {
+//         debugPrint('Error handling deep link: $err');
+//       },
+//     );
+//   }
+
+//   void _handleDeepLink(Uri uri) {
+//     debugPrint('deeplink Url: $uri');
+//     if (uri.scheme == 'com.example.deeplink' ||
+//         uri.scheme == 'http' ||
+//         uri.scheme == 'https' && uri.host == 'dp-link.vercel.app') {
+//       String? deepLinkPath;
+
+//       Navigator.of(context).push(
+//         MaterialPageRoute(
+//           builder: (context) => SplashScreen(deepLink: deepLinkPath),
+//         ),
+//       );
 //     }
 //   }
-//
-//   void initDeepLinkListener() {
-//     _sub = uriLinkStream.listen((Uri? uri) {
-//       if (uri != null) {
-//         _handleRouting(uri);
-//       }
-//     });
-//   }
-//
-//   void _handleRouting(Uri uri) {
-//     // Example: myapp://product?id=100
-//     final path = uri.path;
-//     final query = uri.queryParameters;
-//
-//     if (path == '/product') {
-//       final id = query['id'];
-//       Navigator.pushNamed(context, '/product', arguments: id);
-//     }
-//   }
-//
+
 //   @override
 //   void dispose() {
-//     _sub?.cancel();
+//     _linkSubscription?.cancel();
 //     super.dispose();
 //   }
-//
+
 //   @override
 //   Widget build(BuildContext context) {
 //     return MaterialApp(
@@ -127,7 +127,7 @@ class _MyAppState extends State<MyApp> {
 //       theme: ThemeData(
 //         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
 //       ),
-//       home: const HomeScreen(),
+//       home: const SplashScreen(),
 //     );
 //   }
 // }

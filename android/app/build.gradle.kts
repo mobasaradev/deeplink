@@ -44,9 +44,11 @@ android {
             storePassword keystoreProperties['storePassword']
         }
     }
+    
+   
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.release 
         }
     }
 }
