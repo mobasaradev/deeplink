@@ -93,7 +93,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             shape: BoxShape.circle,
                             color: _currentImageIndex == i
                                 ? Colors.deepPurple
-                                : Colors.white.withOpacity(0.6),
+                                : Colors.white,
                           ),
                         ),
                       ),
