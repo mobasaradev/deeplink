@@ -162,18 +162,18 @@ jobs:
           path: build/app/outputs/bundle/release/app-release.aab
           retention-days: 30
 
-      - name: Extract Release Notes from releasenote.md
-        id: changelog
-        uses: ffurrer2/extract-release-notes@v1
-        with:
-          changelog_file: releasenote.md
+#      - name: Extract Release Notes from releasenote.md
+#        id: changelog
+#        uses: ffurrer2/extract-release-notes@v1
+#        with:
+#          changelog_file: releasenote.md
 
-      - name: Deploy to Play Store
-        uses: r0adkll/upload-google-play@v1.1.1
-        with:
-          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_JSON }}
-          packageName: com.example.app
-          releaseFiles: build/app/outputs/bundle/release/app-release.aab
-          track: production
-          releaseNotes: ${{ steps.changelog.outputs.release_notes }}
-          status: completed
+#      - name: Deploy to Play Store
+#        uses: r0adkll/upload-google-play@v1.1.1
+#        with:
+#          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_JSON }}
+#          packageName: com.example.app
+#          releaseFiles: build/app/outputs/bundle/release/app-release.aab
+#          track: production
+#          releaseNotes: ${{ steps.changelog.outputs.release_notes }}
+#          status: completed
