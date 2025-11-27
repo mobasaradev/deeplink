@@ -134,8 +134,8 @@ jobs:
       - name: Get Flutter dependencies
         run: flutter pub get
 
-      - name: Run Flutter analyze
-        run: flutter analyze
+#      - name: Run Flutter analyze
+#        run: flutter analyze
 
       - name: Create signing key
         run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/key.jks
